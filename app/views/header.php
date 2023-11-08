@@ -62,6 +62,7 @@
                             <a href="<?= ROOT ?>login/index" class="nav-link text-light">Iniciar sesión</a>
                             <a href="<?= ROOT ?>login/registro" class="nav-link text-light">Registro</a>
                         <?php endif; ?>
+                </li>
             </ul>
         <?php endif; ?>
         <?php if (isset($data['admin']) && $data['admin']): ?>

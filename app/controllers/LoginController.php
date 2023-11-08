@@ -325,38 +325,40 @@ class LoginController extends Controller
     public function verifyUser()
     {
         $errors = [];
-    
+
         $user = $_POST['user'] ?? '';
-        $password =  $_POST['password'] ?? ''; // Encriptar la contraseña con SHA-512
+        $password = $_POST['password'] ?? '';
         $remember = $_POST['remember'] ?? '';
-    
+
         $value = $user . '|' . $password;
         if ($remember == 'on') {
             $date = time() + (60*60*24*7);
         } else {
             $date = time() - 1;
         }
-    
+
         setcookie('shoplogin', $value, $date, dirname(__DIR__) . ROOT);
-    
+
         $errors = $this->model->verifyUser($user, $password);
-    
+
         $dataForm = [
             'user' => $user,
             'password' => $password,
             'remember' => $remember,
         ];
-    
+
         if ( ! $errors ) {
+
             $data = $this->model->getUserByEmail($user);
             $session = new Session();
             $session->login($data);
-    
+
             header('location:' . ROOT . 'shop');
         } else {
+
             $data = [
                 'title' => 'Login',
-                'menu' => true,
+                'menu' => false,
                 'errors' => $errors,
                 'data' => $dataForm,
             ];

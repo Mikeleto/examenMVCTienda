@@ -11,8 +11,9 @@ class ShopController extends Controller
 
     public function index()
     {
-      
+       
 
+       
             $mostSold = $this->model->getMostSold();
             $news = $this->model->getNews();
 
@@ -38,14 +39,21 @@ class ShopController extends Controller
 
     public function show($id, $back = '')
     {
-        $session = new Session();
-        $userId = null;
+       $session = new Session();
+       $userId = null;
 
-        if($session->getLogin()){
-            $userId = $session->getLogin();
-        }
 
         $product = $this->model->getProductById($id);
+
+        if($product->type == 1){
+            $listType = 'Cursos';
+
+        }elseif($product->type == 2){
+            $listType = 'Libros';
+
+        }else{
+            $listType = 'Productos';
+        }
 
         $data = [
             'title' => 'Detalle del producto',
@@ -55,7 +63,8 @@ class ShopController extends Controller
             'back' => $back,
             'errors' => [],
             'data' => $product,
-            'user_id' => $userId,
+            'user_id' => $session->getUserId(),
+            'type' => $listType,
         ];
 
         $this->view('shop/show', $data);
@@ -63,7 +72,9 @@ class ShopController extends Controller
 
     public function whoami()
     {
-     
+       
+
+      
 
             $data = [
                 'title' => 'Quienes somos',
@@ -72,7 +83,7 @@ class ShopController extends Controller
             ];
 
             $this->view('shop/whoami', $data);
-      
+       
     }
 
     public function contact()
@@ -137,8 +148,7 @@ class ShopController extends Controller
                 $this->view('shop/contact', $data);
             }
         } else {
-           
-
+            
                 $data = [
                     'title' => 'Contacta con nosotros',
                     'menu' => true,
@@ -147,7 +157,7 @@ class ShopController extends Controller
 
                 $this->view('shop/contact', $data);
 
-           
+          
+            }
         }
-    }
-}
+    }   
