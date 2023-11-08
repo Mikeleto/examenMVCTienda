@@ -33,6 +33,12 @@
                     <a href="<?= ROOT . 'shop/contact' ?>" class="nav-link
                     <?= (isset($data['active']) && $data['active'] == 'contact') ? 'active' : '' ?>">Contacto</a>
                 </li>
+                <li>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin == 1): ?>
+                    <a href="<?= ROOT ?>AdminShop" class="nav-link">Ir al panel de administracion</a>
+                    <?php endif; ?>
+
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right mt-2 mt-lg-0">
                 <?php if (isset($_SESSION['cartTotal']) && $_SESSION['cartTotal'] > 0): ?>

@@ -32,6 +32,28 @@ class AdminUser
             ];
             $query = $this->db->prepare($sql);
             $response = $query->execute($params);
+
+            if($response){
+                $sql = 'INSERT INTO users(first_name, last_name_1, last_name_2, email, 
+              address, city, state, postcode, country,password,isAdmin) 
+              VALUES(:first_name, :last_name_1, :last_name_2, :email, 
+              :address, :city, :state, :postcode, :country,:password,:isAdmin)';
+                $params = [
+                    ':first_name' => $data['name'],
+                    ':last_name_1' => 'ADMIN',
+                    ':last_name_2' => 'ADMIN',
+                    ':email' => $data['email'],
+                    ':address' => 'ADMIN',
+                    ':city' => 'ADMIN',
+                    ':state' => 'ADMIN',
+                    ':postcode' => 'ADMIN',
+                    ':country' => 'ADMIN',
+                    ':password' => $pass,
+                    ':isAdmin' => 1,
+                ];
+                $query = $this->db->prepare($sql);
+                $response = $query->execute($params);
+            }       
         }
 
         return $response;
