@@ -11,9 +11,7 @@ class ShopController extends Controller
 
     public function index()
     {
-        $session = new Session();
-
-        if ($session->getLogin()) {
+      
 
             $mostSold = $this->model->getMostSold();
             $news = $this->model->getNews();
@@ -28,9 +26,7 @@ class ShopController extends Controller
             ];
 
             $this->view('shop/index', $data);
-        } else {
-            header('location:' . ROOT);
-        }
+     
     }
 
     public function logout()
@@ -43,6 +39,11 @@ class ShopController extends Controller
     public function show($id, $back = '')
     {
         $session = new Session();
+        $userId = null;
+
+        if($session->getLogin()){
+            $userId = $session->getLogin();
+        }
 
         $product = $this->model->getProductById($id);
 
@@ -54,7 +55,7 @@ class ShopController extends Controller
             'back' => $back,
             'errors' => [],
             'data' => $product,
-            'user_id' => $session->getUserId(),
+            'user_id' => $userId,
         ];
 
         $this->view('shop/show', $data);
@@ -62,9 +63,7 @@ class ShopController extends Controller
 
     public function whoami()
     {
-        $session = new Session();
-
-        if ($session->getLogin()) {
+     
 
             $data = [
                 'title' => 'Quienes somos',
@@ -73,9 +72,7 @@ class ShopController extends Controller
             ];
 
             $this->view('shop/whoami', $data);
-        } else {
-            header('location:' . ROOT);
-        }
+      
     }
 
     public function contact()
@@ -140,9 +137,7 @@ class ShopController extends Controller
                 $this->view('shop/contact', $data);
             }
         } else {
-            $session = new Session();
-
-            if ($session->getLogin()) {
+           
 
                 $data = [
                     'title' => 'Contacta con nosotros',
@@ -152,9 +147,7 @@ class ShopController extends Controller
 
                 $this->view('shop/contact', $data);
 
-            } else {
-                header('location:' . ROOT);
-            }
+           
         }
     }
 }

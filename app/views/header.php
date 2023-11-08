@@ -55,9 +55,13 @@
                         </button>
                     </form>
                 </li>
-                <li class="nav-item">
-                    <a href="<?= ROOT . 'shop/logout' ?>" class="nav-link">Salir</a>
-                </li>
+                <li class="nav-item d-flex flex-row">
+                        <?php if(isset($_SESSION['user'])): ?>
+                            <a href="<?= ROOT ?>shop/logout" class="nav-link text-light" style="display: inline-block">Salir</a>
+                        <?php else: ?>
+                            <a href="<?= ROOT ?>login/index" class="nav-link text-light">Iniciar sesión</a>
+                            <a href="<?= ROOT ?>login/registro" class="nav-link text-light">Registro</a>
+                        <?php endif; ?>
             </ul>
         <?php endif; ?>
         <?php if (isset($data['admin']) && $data['admin']): ?>
