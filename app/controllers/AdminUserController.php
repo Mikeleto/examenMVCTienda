@@ -33,8 +33,21 @@ class AdminUserController extends Controller
         }
 
     }
+    public function create(){
 
-    public function create()
+        $data = [
+            'title' => 'Administración de usuarios - Alta',
+            'menu' => false,
+            'admin' => true,
+            'data' => [],
+        ];
+
+        $this->view('admin/users/create', $data);
+
+
+    }
+
+    public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -70,7 +83,7 @@ class AdminUserController extends Controller
 
                 if ($this->model->createAdminUser($dataForm)) {
 
-                    header('location:' . ROOT . 'adminuser');
+                    header('location:' . ROOT . 'AdminUser');
 
                 } else {
 
@@ -101,18 +114,21 @@ class AdminUserController extends Controller
 
                 $this->view('admin/users/create', $data);
             }
-        } else {
+        } 
+    }
+    public function edit($id){
+        $user = $this->model->getUserById($id);
+        $status = $this->model->getConfig('adminStatus');
+        $data = [
+            'title' => 'Administración de usuarios - Modificación',
+            'menu' => false,
+            'admin' => true,
+            'errors' => [],
+            'status' => $status,
+            'data' => $user,
+        ];
+        $this->view('admin/users/update', $data);
 
-            $data = [
-                'title' => 'Administración de usuarios - Alta',
-                'menu' => false,
-                'admin' => true,
-                'data' => [],
-            ];
-
-            $this->view('admin/users/create', $data);
-
-        }
     }
 
     public function update($id)
@@ -154,7 +170,7 @@ class AdminUserController extends Controller
                 $errors = $this->model->setUser($data);
 
                 if (empty($errors)) {
-                    header('location:' . ROOT . 'adminuser');
+                    header('location:' . ROOT . 'AdminUser');
                 }
             }
         }
@@ -175,7 +191,22 @@ class AdminUserController extends Controller
 
     }
 
-    public function delete($id)
+    public function delete($id){
+        $user = $this->model->getUserById($id);
+        $status = $this->model->getConfig('adminStatus');
+        $data = [
+            'title' => 'Administración de usuarios - Eliminación',
+            'menu' => false,
+            'admin' => true,
+            'errors' => [],
+            'status' => $status,
+            'data' => $user,
+        ];
+
+        $this->view('admin/users/delete', $data);
+    }
+
+    public function destroy($id)
     {
         $errors = [];
 
@@ -183,7 +214,7 @@ class AdminUserController extends Controller
             $errors = $this->model->delete($id);
 
             if (empty($errors)) {
-                header('location:' . ROOT . 'adminuser');
+                header('location:' . ROOT . 'AdminUser');
             }
         }
 
