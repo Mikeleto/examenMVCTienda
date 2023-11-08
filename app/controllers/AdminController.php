@@ -23,6 +23,7 @@ class AdminController extends Controller
     {
         $session = new Session();
         $session->logout();
+        
         header('location:' . ROOT);
     }
 
