@@ -19,7 +19,15 @@
                     <td><?= $product->id ?></td>
                     <td><?= $data['type'][$product->type - 1]->description ?></td>
                     <td><?= $product->name ?></td>
-                    <td><?= html_entity_decode($product->description) ?></td>
+                    <td>
+                    <?php $description = html_entity_decode($product->description) ?>
+                    <?php $descriptionStripped = strip_tags($description); ?>
+
+                    <?php if (mb_strlen($descriptionStripped) > 30): ?>
+                    <?= mb_substr($descriptionStripped, 0, 30) . '...' ?>
+                    <?php else: ?>
+                    <?= $descriptionStripped ?>
+                    <?php endif; ?> </td>
                     <td><a href="<?= ROOT ?>AdminProduct/update/<?= $product->id ?>" class="btn btn-info">Modificar</a></td>
                     <td><a href="<?= ROOT ?>AdminProduct/delete/<?= $product->id ?>" class="btn btn-danger">Borrar</a></td>
                 </tr>
